@@ -9,7 +9,7 @@ class SearchResultRepository() {
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
-    fun clearResults(){
+    private fun clearResults(){
         _searchResult.postValue(listOf())
     }
 
@@ -21,13 +21,17 @@ class SearchResultRepository() {
     }
 
     companion object {
-        private var instance: SearchResultRepository? = null
+        private var _instance: SearchResultRepository? = null
+        val instance: SearchResultRepository
+            get() = getInstance()
 
-        fun getInstance(context: Context): SearchResultRepository {
-            if (instance == null) {
-                instance = SearchResultRepository()
+        fun getInstance(): SearchResultRepository {
+            if (_instance == null) {
+                _instance = SearchResultRepository()
             }
-            return instance as SearchResultRepository
+            return _instance as SearchResultRepository
         }
+
+
     }
 }

@@ -15,7 +15,7 @@ import ksc.campus.tech.kakao.map.R
 
 
 class SearchActivityViewModel (application: Application): AndroidViewModel(application) {
-    private val searchResultRepository: SearchResultRepository = SearchResultRepository.getInstance(application)
+    private val searchResultRepository: SearchResultRepository = SearchResultRepository.instance
     private val keywordRepository: SearchKeywordRepository = SearchKeywordRepository.getInstance(application)
 
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
@@ -32,7 +32,6 @@ class SearchActivityViewModel (application: Application): AndroidViewModel(appli
     }
 
     private fun search(query: String){
-        Log.d("KSC", "key: ${BuildConfig.KAKAO_REST_API_KEY}")
         searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY)
     }
 
