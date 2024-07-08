@@ -7,11 +7,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
-import java.security.Key
 
 interface KakaoSearchRetrofitService{
     @GET("/v2/local/search/keyword.json")
@@ -65,6 +63,9 @@ object SearchKakaoHelper{
 
     private fun batchSearchByKeyword(query: String, apiKey:String, page:Int, batchCount: Int, onResponse: ((results:List<SearchResult>) -> Unit)?){
         if(page > batchCount)
+            return
+
+        if(!isQueryValid(query))
             return
 
         lastSearchedQuery = query
