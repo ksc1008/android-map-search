@@ -42,6 +42,14 @@ object SearchKakaoHelper {
         Pair("PM9", "약국")
     )
     private const val KAKAO_LOCAL_URL = "https://dapi.kakao.com/"
+
+    /**
+     * 요청이 유효한지 검증하기 위해 사용.
+     *
+     * 현재 진행중인 쿼리가 유저가 마지막으로 보낸 쿼리인지 검증한다.
+     *
+     * 유저가 새로운 쿼리를 보낼 때마다 [lastSearchId] 값이 1씩 증가한다.
+    */
     private var lastSearchId: Int = 0
 
     private fun isQueryValid(query: String): Boolean = query.isNotBlank()
@@ -92,11 +100,6 @@ object SearchKakaoHelper {
         batchCount: Int,
         onResponse: ((results: List<SearchResult>) -> Unit)?
     ) {
-        /*
-         * lastSearchId
-         * 요청이 유효한지 검증하기 위해 사용
-         * 요청을 보내고 사용자가 새로운 검색을 수행하면 이전의 검색 결과는 무시
-        */
         lastSearchId++
 
         batchSearchByKeyword(lastSearchId, query, apiKey, 1, batchCount, onResponse)
