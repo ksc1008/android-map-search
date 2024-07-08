@@ -1,6 +1,9 @@
 package campus.tech.kakao.map.views
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.os.Debug
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import campus.tech.kakao.map.R
 import campus.tech.kakao.map.view_models.SearchActivityViewModel
 import campus.tech.kakao.map.views.adapters.SearchKeywordAdapter
+import com.kakao.vectormap.KakaoMapSdk
 
 class MainActivity : AppCompatActivity() {
     private lateinit var searchResultFragmentContainer: FragmentContainerView
@@ -27,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         setInitialValueToAdapter()
         initiateLiveDataObservation()
+
+        checkKakaoSdk()
     }
 
     private fun initiateLiveDataObservation() {
@@ -82,5 +88,16 @@ class MainActivity : AppCompatActivity() {
         keywordRecyclerView = findViewById(R.id.saved_search_bar)
         initiateSearchView()
         initiateSaveKeywordRecyclerView()
+    }
+
+    fun checkKakaoSdk(){
+        try {
+            KakaoMapSdk.init(this, resources.getString(R.string.KAKAO_API_KEY))
+            Log.d("KSC","HashKey: ${KakaoMapSdk.INSTANCE.hashKey}")
+        }
+        catch (e:Exception){
+            Log.e("KSC",e.message?:"")
+            Log.e("KSC",e.stackTraceToString())
+        }
     }
 }
