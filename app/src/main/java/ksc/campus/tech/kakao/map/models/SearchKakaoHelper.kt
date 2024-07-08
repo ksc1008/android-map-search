@@ -115,7 +115,7 @@ object SearchKakaoHelper {
             return
 
         val retrofitService = getRetrofitService(KAKAO_LOCAL_URL)
-        retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, 1).enqueue(
+        retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, page).enqueue(
             object : Callback<KeywordSearchResponse> {
                 override fun onResponse(
                     call: Call<KeywordSearchResponse>,
