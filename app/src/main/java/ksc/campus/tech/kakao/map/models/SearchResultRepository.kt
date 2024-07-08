@@ -12,13 +12,17 @@ class SearchResultRepository(context: Context) {
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
-
     init {
     }
 
+    fun clearResults(){
+        _searchResult.postValue(listOf())
+    }
+
     fun search(text: String, apiKey: String) {
-        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 1){
-            _searchResult.postValue(it)
+        clearResults()
+        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 10){
+            _searchResult.postValue((_searchResult.value?: listOf()) + it)
         }
     }
 

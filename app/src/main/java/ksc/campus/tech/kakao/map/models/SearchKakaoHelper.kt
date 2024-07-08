@@ -46,23 +46,27 @@ object SearchKakaoHelper{
         return result
     }
 
-    private fun getResponse(query:String, call: Call<KeywordSearchResponse>, response: Response<KeywordSearchResponse>, onSuccess: ((results:List<SearchResult>) -> Unit)?) {
-        // 새로운 검색어를 검색한 후 이전 검색 결과가 도착했을 경우, 무시
+    private fun isResponseSuccess(query:String, response: Response<KeywordSearchResponse>): Boolean{
         if (query != lastSearchedQuery) {
-            return
+            return false
         }
-
         if(!response.isSuccessful){
             Log.e("KSC", "request failed")
             Log.e("KSC", "error message: ${response.message()}")
             Log.e("KSC", "error code: ${response.code()}")
-            return
+            return false
         }
-
-        onSuccess?.invoke(responseToResultArray(response))
+        return true
     }
 
     fun batchSearchByKeyword(query: String, apiKey:String, batchCount: Int, onResponse: ((results:List<SearchResult>) -> Unit)?){
+        batchSearchByKeyword(query, apiKey, 1, batchCount, onResponse)
+    }
+
+    private fun batchSearchByKeyword(query: String, apiKey:String, page:Int, batchCount: Int, onResponse: ((results:List<SearchResult>) -> Unit)?){
+        if(page > batchCount)
+            return
+
         lastSearchedQuery = query
         val retrofit = getRetrofit(KAKAO_LOCAL_URL)
         val retrofitService = retrofit.create(KakaoSearchRetrofitService::class.java)
@@ -72,7 +76,13 @@ object SearchKakaoHelper{
                     call: Call<KeywordSearchResponse>,
                     response: Response<KeywordSearchResponse>
                 ) {
-                    getResponse(query, call, response, onResponse)
+                    if(!isResponseSuccess(query, response)){
+                        return
+                    }
+                    if(response.body()?.meta?.is_end == false){
+                        batchSearchByKeyword(query, apiKey, page+1, batchCount, onResponse)
+                    }
+                    onResponse?.invoke(responseToResultArray(response))
                 }
 
                 override fun onFailure(call: Call<KeywordSearchResponse>, p1: Throwable) {
@@ -84,7 +94,6 @@ object SearchKakaoHelper{
                     }
                     Log.e("KSC", "Message: ${p1.message}")
                 }
-
             }
         )
     }
