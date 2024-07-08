@@ -15,7 +15,7 @@ import ksc.campus.tech.kakao.map.R
 
 
 class SearchActivityViewModel (application: Application): AndroidViewModel(application) {
-    private val searchResultRepository: SearchResultRepository = SearchResultRepository.instance
+    private val searchResultRepository: SearchResultRepository = SearchResultRepository.getInstance()
     private val keywordRepository: SearchKeywordRepository = SearchKeywordRepository.getInstance(application)
 
     private val _searchText: MutableLiveData<String> = MutableLiveData("")

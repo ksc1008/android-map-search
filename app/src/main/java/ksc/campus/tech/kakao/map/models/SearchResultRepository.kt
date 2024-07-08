@@ -22,9 +22,6 @@ class SearchResultRepository() {
 
     companion object {
         private var _instance: SearchResultRepository? = null
-        val instance: SearchResultRepository
-            get() = getInstance()
-
         fun getInstance(): SearchResultRepository {
             if (_instance == null) {
                 _instance = SearchResultRepository()
