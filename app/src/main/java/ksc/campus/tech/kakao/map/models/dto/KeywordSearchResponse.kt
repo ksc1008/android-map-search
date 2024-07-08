@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models.dto
+package ksc.campus.tech.kakao.map.models.dto
 
 data class KeywordSearchResponse(
     val meta: Meta,

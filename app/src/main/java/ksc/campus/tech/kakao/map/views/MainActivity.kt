@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.views
+package ksc.campus.tech.kakao.map.views
 
 import android.content.res.Resources
 import android.os.Bundle
@@ -12,9 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentContainerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import campus.tech.kakao.map.R
-import campus.tech.kakao.map.view_models.SearchActivityViewModel
-import campus.tech.kakao.map.views.adapters.SearchKeywordAdapter
+import ksc.campus.tech.kakao.map.R
+import ksc.campus.tech.kakao.map.view_models.SearchActivityViewModel
+import ksc.campus.tech.kakao.map.views.adapters.SearchKeywordAdapter
 import com.kakao.vectormap.KakaoMapSdk
 
 class MainActivity : AppCompatActivity() {
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         try {
             KakaoMapSdk.init(this, resources.getString(R.string.KAKAO_API_KEY))
             Log.d("KSC","HashKey: ${KakaoMapSdk.INSTANCE.hashKey}")
+            Log.d("KSC","AppKey: ${KakaoMapSdk.INSTANCE.appKey}")
         }
         catch (e:Exception){
             Log.e("KSC",e.message?:"")

@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models
 
 import android.content.ContentValues
 import android.content.Context
@@ -6,8 +6,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import campus.tech.kakao.map.models.contracts.SearchKeywordContract
-import campus.tech.kakao.map.models.contracts.SearchResultContract
+import ksc.campus.tech.kakao.map.models.contracts.SearchKeywordContract
+import ksc.campus.tech.kakao.map.models.contracts.SearchResultContract
 
 data class SearchResult(val name: String, val address: String, val type: String)
 
@@ -15,6 +15,7 @@ class SearchDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(SearchResultContract.CREATE_QUERY)
+        db?.execSQL(SearchKeywordContract.CREATE_QUERY)
 
         if (db != null) {
             insertInitialData(db)
@@ -169,7 +170,7 @@ class SearchDbHelper(context: Context) :
     companion object {
         private var instance: SearchDbHelper? = null
         const val DATABASE_VERSION = 3
-        const val DATABASE_NAME = "MapSearch"
+        const val DATABASE_NAME = "MapSearch2"
 
         fun getInstance(context: Context): SearchDbHelper {
             if (instance == null) {

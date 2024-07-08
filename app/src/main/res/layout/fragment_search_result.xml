@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.SearchResultFragment">
+    tools:context="ksc.campus.tech.kakao.map.views.SearchResultFragment">
 
     <TextView
         android:visibility="gone"

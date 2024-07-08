@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.views
+package ksc.campus.tech.kakao.map.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,10 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import campus.tech.kakao.map.R
-import campus.tech.kakao.map.models.SearchResult
-import campus.tech.kakao.map.view_models.SearchActivityViewModel
-import campus.tech.kakao.map.views.adapters.SearchResultAdapter
+import ksc.campus.tech.kakao.map.R
+import ksc.campus.tech.kakao.map.models.SearchResult
+import ksc.campus.tech.kakao.map.view_models.SearchActivityViewModel
+import ksc.campus.tech.kakao.map.views.adapters.SearchResultAdapter
 
 class SearchResultFragment : Fragment() {
     private lateinit var searchResultRecyclerView: RecyclerView

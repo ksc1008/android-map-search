@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models
 
 object InitialDataset {
     val initialData:List<SearchResult> = listOf(

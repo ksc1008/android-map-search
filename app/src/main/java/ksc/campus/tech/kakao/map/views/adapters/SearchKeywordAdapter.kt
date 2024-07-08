@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.views.adapters
+package ksc.campus.tech.kakao.map.views.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import campus.tech.kakao.map.R
+import ksc.campus.tech.kakao.map.R
 
 class KeywordDiffUtil(private val oldList: List<String>, private val newList: List<String>): DiffUtil.Callback(){
     override fun getOldListSize(): Int = oldList.size

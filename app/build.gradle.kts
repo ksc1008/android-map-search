@@ -8,11 +8,11 @@ plugins {
 fun getApiKey(key: String): String = gradleLocalProperties(rootDir, providers).getProperty(key)
 
 android {
-    namespace = "campus.tech.kakao.map"
+    namespace = "ksc.campus.tech.kakao.map"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "campus.tech.kakao.map"
+        applicationId = "ksc.campus.tech.kakao.map"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

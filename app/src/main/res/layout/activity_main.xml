@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.MainActivity">
+    tools:context="ksc.campus.tech.kakao.map.views.MainActivity">
 
     <androidx.appcompat.widget.SearchView
         app:iconifiedByDefault="false"
@@ -30,7 +30,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_search_result"
-        android:name="campus.tech.kakao.map.views.SearchResultFragment"
+        android:name="ksc.campus.tech.kakao.map.views.SearchResultFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"

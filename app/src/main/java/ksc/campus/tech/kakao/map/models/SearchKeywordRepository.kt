@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models
 
 import android.content.Context
 import androidx.lifecycle.LiveData

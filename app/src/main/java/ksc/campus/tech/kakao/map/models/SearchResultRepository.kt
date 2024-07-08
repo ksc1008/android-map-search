@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -12,16 +12,13 @@ class SearchResultRepository(context: Context) {
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
-    private lateinit var searchDb: SearchDbHelper
 
     init {
-        searchDb = SearchDbHelper(context)
     }
 
-    fun search(text: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = searchDb.querySearchResultsByName(text)
-            _searchResult.postValue(result)
+    fun search(text: String, apiKey: String) {
+        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 1){
+            _searchResult.postValue(it)
         }
     }
 

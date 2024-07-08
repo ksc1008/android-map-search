@@ -1,4 +1,4 @@
-package campus.tech.kakao.map.models.contracts
+package ksc.campus.tech.kakao.map.models.contracts
 
 import android.provider.BaseColumns._ID
 

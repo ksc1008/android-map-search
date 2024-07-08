@@ -1,12 +1,17 @@
-package campus.tech.kakao.map.view_models
+package ksc.campus.tech.kakao.map.view_models
 
 import android.app.Application
+import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import campus.tech.kakao.map.models.SearchKeywordRepository
-import campus.tech.kakao.map.models.SearchResult
-import campus.tech.kakao.map.models.SearchResultRepository
+import ksc.campus.tech.kakao.map.BuildConfig
+import ksc.campus.tech.kakao.map.models.SearchKeywordRepository
+import ksc.campus.tech.kakao.map.models.SearchResult
+import ksc.campus.tech.kakao.map.models.SearchResultRepository
+import com.kakao.vectormap.KakaoMapSdk
+import ksc.campus.tech.kakao.map.R
 
 
 class SearchActivityViewModel (application: Application): AndroidViewModel(application) {
@@ -27,7 +32,8 @@ class SearchActivityViewModel (application: Application): AndroidViewModel(appli
     }
 
     private fun search(query: String){
-        searchResultRepository.search(query)
+        Log.d("KSC", "key: ${BuildConfig.KAKAO_REST_API_KEY}")
+        searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY)
     }
 
     private fun addKeyword(keyword: String){
