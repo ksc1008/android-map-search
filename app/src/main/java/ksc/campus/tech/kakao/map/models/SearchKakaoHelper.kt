@@ -42,7 +42,7 @@ object SearchKakaoHelper {
         Pair("PM9", "약국")
     )
     private const val KAKAO_LOCAL_URL = "https://dapi.kakao.com/"
-    private var lastSearchedQuery: String = ""
+    private var lastSearchId: Int = 0
 
     private fun isQueryValid(query: String): Boolean = query.isNotBlank()
 
@@ -54,7 +54,8 @@ object SearchKakaoHelper {
             .create(KakaoSearchRetrofitService::class.java)
     }
 
-    private fun parseCategory(category: String) = category.split('>').last().trim().replace(",",", ")
+    private fun parseCategory(category: String) =
+        category.split('>').last().trim().replace(",", ", ")
 
     private fun responseToResultArray(response: Response<KeywordSearchResponse>): List<SearchResult> {
         val result = mutableListOf<SearchResult>()
@@ -65,23 +66,14 @@ object SearchKakaoHelper {
                     doc.id,
                     doc.place_name,
                     doc.address_name,
-                    categoryGroupCodeToDescription.getOrDefault(
-                        doc.category_group_code,
-                        parseCategory(doc.category_name)
-                    )
+                    categoryGroupCodeToDescription.getOrDefault(doc.category_group_code, parseCategory(doc.category_name))
                 )
             )
         }
         return result
     }
 
-    private fun isResponseSuccess(
-        query: String,
-        response: Response<KeywordSearchResponse>
-    ): Boolean {
-        if (query != lastSearchedQuery) {
-            return false
-        }
+    private fun isResponseSuccess(response: Response<KeywordSearchResponse>): Boolean {
         if (!response.isSuccessful) {
             Log.e("KSC", "request failed")
             Log.e("KSC", "error message: ${response.message()}")
@@ -97,11 +89,19 @@ object SearchKakaoHelper {
         batchCount: Int,
         onResponse: ((results: List<SearchResult>) -> Unit)?
     ) {
-        batchSearchByKeyword(query, apiKey, 1, batchCount, onResponse)
+        /*
+         * lastSearchId
+         * 요청이 유효한지 검증하기 위해 사용
+         * 요청을 보내고 사용자가 새로운 검색을 수행하면 이전의 검색 결과는 무시
+        */
+        lastSearchId++
+
+        batchSearchByKeyword(lastSearchId, query, apiKey, 1, batchCount, onResponse)
     }
 
 
     private fun batchSearchByKeyword(
+        searchId: Int,
         query: String,
         apiKey: String,
         page: Int,
@@ -114,7 +114,6 @@ object SearchKakaoHelper {
         if (!isQueryValid(query))
             return
 
-        lastSearchedQuery = query
         val retrofitService = getRetrofitService(KAKAO_LOCAL_URL)
         retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, 1).enqueue(
             object : Callback<KeywordSearchResponse> {
@@ -122,14 +121,24 @@ object SearchKakaoHelper {
                     call: Call<KeywordSearchResponse>,
                     response: Response<KeywordSearchResponse>
                 ) {
-                    if (!isResponseSuccess(query, response)) {
+                    if (!isResponseSuccess(response)) {
                         return
                     }
-
-                    if (response.body()?.meta?.is_end == false) {
-                        batchSearchByKeyword(query, apiKey, page + 1, batchCount, onResponse)
+                    val result = responseToResultArray(response)
+                    if (lastSearchId != searchId) {
+                        return
                     }
-                    onResponse?.invoke(responseToResultArray(response))
+                    onResponse?.invoke(result)
+                    if (response.body()?.meta?.is_end == false) {
+                        batchSearchByKeyword(
+                            searchId,
+                            query,
+                            apiKey,
+                            page + 1,
+                            batchCount,
+                            onResponse
+                        )
+                    }
                 }
 
                 override fun onFailure(call: Call<KeywordSearchResponse>, p1: Throwable) {
