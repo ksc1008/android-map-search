@@ -62,6 +62,7 @@ object SearchKakaoHelper {
         for (doc in response.body()?.documents ?: listOf()) {
             result.add(
                 SearchResult(
+                    doc.id,
                     doc.place_name,
                     doc.address_name,
                     categoryGroupCodeToDescription.getOrDefault(

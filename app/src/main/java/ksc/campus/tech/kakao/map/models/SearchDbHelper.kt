@@ -9,7 +9,7 @@ import android.provider.BaseColumns
 import ksc.campus.tech.kakao.map.models.contracts.SearchKeywordContract
 import ksc.campus.tech.kakao.map.models.contracts.SearchResultContract
 
-data class SearchResult(val name: String, val address: String, val type: String)
+data class SearchResult(val id: String, val name: String, val address: String, val type: String)
 
 class SearchDbHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

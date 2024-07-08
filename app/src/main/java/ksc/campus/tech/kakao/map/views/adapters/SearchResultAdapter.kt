@@ -20,7 +20,7 @@ class SearchResultDiffUtil(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
-        return (oldItem.type == newItem.type && oldItem.address == newItem.address && oldItem.name == newItem.name)
+        return (oldItem.id == newItem.id)
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -39,6 +39,7 @@ class SearchResultAdapter(
         val resultName: TextView
         val resultAddress: TextView
         val resultType: TextView
+        var resultId: String = ""
 
         init {
             resultName = itemView.findViewById(R.id.text_result_name)
@@ -64,6 +65,7 @@ class SearchResultAdapter(
         view.setOnClickListener {
             onItemClicked(
                 SearchResult(
+                    holder.resultId,
                     holder.resultName.text.toString(),
                     holder.resultAddress.text.toString(),
                     holder.resultType.text.toString()
@@ -77,6 +79,7 @@ class SearchResultAdapter(
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         val item = results[position]
+        holder.resultId = item.id
         holder.resultAddress.text = item.address
         holder.resultName.text = item.name
         holder.resultType.text = item.type
