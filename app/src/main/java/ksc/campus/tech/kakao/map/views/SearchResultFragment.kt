@@ -56,7 +56,7 @@ class SearchResultFragment : Fragment() {
         }
     }
 
-    private fun setNoResultHelpTextActive(active: Boolean){
+    private fun setNoResultHelpTextActive(active: Boolean) {
         noResultHelpText.isVisible = active
     }
 

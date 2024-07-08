@@ -50,7 +50,7 @@ class SearchResultAdapter(
 
     var results: List<SearchResult> = listOf()
 
-    override fun getItemCount(): Int =results.size
+    override fun getItemCount(): Int = results.size
 
     fun updateResult(results: List<SearchResult>) {
         val diffUtil = SearchResultDiffUtil(this.results, results)
@@ -60,7 +60,8 @@ class SearchResultAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search_result, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_search_result, parent, false)
         val holder = SearchResultViewHolder(view)
         view.setOnClickListener {
             onItemClicked(

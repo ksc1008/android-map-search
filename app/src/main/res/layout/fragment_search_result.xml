@@ -6,16 +6,15 @@
     tools:context="ksc.campus.tech.kakao.map.views.SearchResultFragment">
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/text_no_result"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/no_search_result" />
+        android:gravity="center"
+        android:text="@string/no_search_result"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_search_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 </FrameLayout>

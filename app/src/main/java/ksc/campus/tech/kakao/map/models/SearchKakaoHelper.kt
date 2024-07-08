@@ -66,7 +66,10 @@ object SearchKakaoHelper {
                     doc.id,
                     doc.place_name,
                     doc.address_name,
-                    categoryGroupCodeToDescription.getOrDefault(doc.category_group_code, parseCategory(doc.category_name))
+                    categoryGroupCodeToDescription.getOrDefault(
+                        doc.category_group_code,
+                        parseCategory(doc.category_name)
+                    )
                 )
             )
         }

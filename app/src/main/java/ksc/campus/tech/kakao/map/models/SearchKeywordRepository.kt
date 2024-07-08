@@ -12,12 +12,13 @@ class SearchKeywordRepository(context: Context) {
     val keywords: LiveData<List<String>>
         get() = _keywords
 
-    private lateinit var searchDb: SearchDbHelper
+    private var searchDb: SearchDbHelper
+
     init {
         searchDb = SearchDbHelper(context)
     }
 
-    fun queryKeyWordAndPostValue(){
+    fun queryKeyWordAndPostValue() {
         val newData = searchDb.queryAllSearchKeywords()
         _keywords.postValue(newData)
     }

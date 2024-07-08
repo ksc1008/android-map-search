@@ -1,8 +1,6 @@
 package ksc.campus.tech.kakao.map.views
 
-import android.content.res.Resources
 import android.os.Bundle
-import android.os.Debug
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
@@ -53,15 +51,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initiateSaveKeywordRecyclerView() {
-        val adapter = SearchKeywordAdapter(LayoutInflater.from(this), object: SearchKeywordClickCallback{
-            override fun clickKeyword(keyword: String) {
-                searchViewModel.clickKeyword(keyword)
-            }
+        val adapter =
+            SearchKeywordAdapter(LayoutInflater.from(this), object : SearchKeywordClickCallback {
+                override fun clickKeyword(keyword: String) {
+                    searchViewModel.clickKeyword(keyword)
+                }
 
-            override fun clickRemove(keyword: String) {
-                searchViewModel.clickKeywordDeleteButton(keyword)
-            }
-        })
+                override fun clickRemove(keyword: String) {
+                    searchViewModel.clickKeywordDeleteButton(keyword)
+                }
+            })
 
         keywordRecyclerView.adapter = adapter
         keywordRecyclerView.layoutManager =
@@ -72,11 +71,10 @@ class MainActivity : AppCompatActivity() {
         keywordRecyclerView.isVisible = active
     }
 
-    private fun initiateSearchView(){
-
-        searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+    private fun initiateSearchView() {
+        searchInput.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchViewModel.submitQuery(query?:"")
+                searchViewModel.submitQuery(query ?: "")
                 return true
             }
 
@@ -95,13 +93,12 @@ class MainActivity : AppCompatActivity() {
         initiateSaveKeywordRecyclerView()
     }
 
-    fun checkKakaoSdk(){
+    fun checkKakaoSdk() {
         try {
             KakaoMapSdk.init(this, resources.getString(R.string.KAKAO_API_KEY))
-        }
-        catch (e:Exception){
-            Log.e("KSC",e.message?:"")
-            Log.e("KSC",e.stackTraceToString())
+        } catch (e: Exception) {
+            Log.e("KSC", e.message ?: "")
+            Log.e("KSC", e.stackTraceToString())
         }
     }
 }

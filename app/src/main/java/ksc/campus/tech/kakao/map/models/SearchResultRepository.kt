@@ -1,6 +1,5 @@
 package ksc.campus.tech.kakao.map.models
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
@@ -9,14 +8,14 @@ class SearchResultRepository() {
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
-    private fun clearResults(){
+    private fun clearResults() {
         _searchResult.postValue(listOf())
     }
 
     fun search(text: String, apiKey: String) {
         clearResults()
-        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 10){
-            _searchResult.postValue((_searchResult.value?: listOf()) + it)
+        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 10) {
+            _searchResult.postValue((_searchResult.value ?: listOf()) + it)
         }
     }
 

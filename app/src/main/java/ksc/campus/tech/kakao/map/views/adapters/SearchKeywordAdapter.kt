@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ksc.campus.tech.kakao.map.R
 
-class KeywordDiffUtil(private val oldList: List<String>, private val newList: List<String>): DiffUtil.Callback(){
+class KeywordDiffUtil(private val oldList: List<String>, private val newList: List<String>) :
+    DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
     override fun getNewListSize(): Int = newList.size
