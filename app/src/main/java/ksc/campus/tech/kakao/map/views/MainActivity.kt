@@ -93,8 +93,6 @@ class MainActivity : AppCompatActivity() {
     fun checkKakaoSdk(){
         try {
             KakaoMapSdk.init(this, resources.getString(R.string.KAKAO_API_KEY))
-            Log.d("KSC","HashKey: ${KakaoMapSdk.INSTANCE.hashKey}")
-            Log.d("KSC","AppKey: ${KakaoMapSdk.INSTANCE.appKey}")
         }
         catch (e:Exception){
             Log.e("KSC",e.message?:"")
