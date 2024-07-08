@@ -24,8 +24,7 @@ class KeywordDiffUtil(private val oldList: List<String>, private val newList: Li
 
 class SearchKeywordAdapter(
     private val inflater: LayoutInflater,
-    val onItemClicked: ((item: String) -> Unit),
-    val onItemDeleteButtonClicked: ((item: String) -> Unit)
+    private val clickCallback: SearchKeywordClickCallback
 ) : RecyclerView.Adapter<SearchKeywordAdapter.SearchKeywordViewHolder>() {
     private var items: List<String> = listOf()
 
@@ -43,10 +42,10 @@ class SearchKeywordAdapter(
         val view = inflater.inflate(R.layout.item_search_keyword, parent, false)
         val holder = SearchKeywordViewHolder(view)
         view.setOnClickListener {
-            onItemClicked(holder.nameText.text.toString())
+            clickCallback.clickKeyword(holder.nameText.text.toString())
         }
         holder.deleteText.setOnClickListener {
-            onItemDeleteButtonClicked(holder.nameText.text.toString())
+            clickCallback.clickRemove(holder.nameText.text.toString())
         }
         return holder
     }

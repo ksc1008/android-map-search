@@ -16,6 +16,7 @@ import ksc.campus.tech.kakao.map.R
 import ksc.campus.tech.kakao.map.view_models.SearchActivityViewModel
 import ksc.campus.tech.kakao.map.views.adapters.SearchKeywordAdapter
 import com.kakao.vectormap.KakaoMapSdk
+import ksc.campus.tech.kakao.map.views.adapters.SearchKeywordClickCallback
 
 class MainActivity : AppCompatActivity() {
     private lateinit var searchResultFragmentContainer: FragmentContainerView
@@ -52,10 +53,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initiateSaveKeywordRecyclerView() {
-        val adapter = SearchKeywordAdapter(LayoutInflater.from(this), {
-            searchViewModel.clickKeyword(it)
-        }, {
-            searchViewModel.clickKeywordDeleteButton(it)
+        val adapter = SearchKeywordAdapter(LayoutInflater.from(this), object: SearchKeywordClickCallback{
+            override fun clickKeyword(keyword: String) {
+                searchViewModel.clickKeyword(keyword)
+            }
+
+            override fun clickRemove(keyword: String) {
+                searchViewModel.clickKeywordDeleteButton(keyword)
+            }
         })
 
         keywordRecyclerView.adapter = adapter
