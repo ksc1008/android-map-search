@@ -17,19 +17,22 @@ class SearchKeywordRepository(context: Context) {
         searchDb = SearchDbHelper(context)
     }
 
+    fun queryKeyWordAndPostValue(){
+        val newData = searchDb.queryAllSearchKeywords()
+        _keywords.postValue(newData)
+    }
+
     fun addKeyword(keyword: String) {
         CoroutineScope(Dispatchers.IO).launch {
             searchDb.insertOrReplaceKeyword(keyword)
-            val newData = searchDb.queryAllSearchKeywords()
-            _keywords.postValue(newData)
+            queryKeyWordAndPostValue()
         }
     }
 
     fun deleteKeyword(keyword: String) {
         CoroutineScope(Dispatchers.IO).launch {
             searchDb.deleteKeyword(keyword)
-            val newData = searchDb.queryAllSearchKeywords()
-            _keywords.postValue(newData)
+            queryKeyWordAndPostValue()
         }
     }
 
