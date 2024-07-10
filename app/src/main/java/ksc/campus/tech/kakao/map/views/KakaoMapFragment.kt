@@ -1,33 +1,53 @@
 package ksc.campus.tech.kakao.map.views
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.LatLng
+import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.MapReadyCallback
+import com.kakao.vectormap.MapView
+import com.kakao.vectormap.camera.CameraPosition
+import com.kakao.vectormap.camera.CameraUpdate
+import com.kakao.vectormap.camera.CameraUpdateFactory
 import ksc.campus.tech.kakao.map.R
+import java.lang.Exception
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [KakaoMapFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class KakaoMapFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit private var kakaoMap: MapView
+
+    private fun initiateKakaoMap(view: View) {
+        kakaoMap = view.findViewById(R.id.kakao_map_view)
+        kakaoMap.start(object : MapLifeCycleCallback() {
+            override fun onMapDestroy() {
+            }
+
+            override fun onMapError(e: Exception?) {
+                Log.e("KSC", e?.message?:"")
+            }
+
+        },
+            object : KakaoMapReadyCallback() {
+                override fun onMapReady(km: KakaoMap) {
+                    val builder = CameraPosition.Builder()
+                    builder.position = LatLng.from(35.8905341232321, 128.61213266480294)
+                    builder.tiltAngle = 0.0
+                    builder.zoomLevel = 15
+                    val camUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition.from(builder))
+                    km.moveCamera(camUpdate)
+                }
+            })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -38,23 +58,8 @@ class KakaoMapFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_kakao_map, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment KakaoMapFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            KakaoMapFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initiateKakaoMap(view)
+        super.onViewCreated(view, savedInstanceState)
     }
 }
