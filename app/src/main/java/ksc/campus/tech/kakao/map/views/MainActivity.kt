@@ -7,16 +7,24 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kakao.vectormap.KakaoMap
 import ksc.campus.tech.kakao.map.R
 import ksc.campus.tech.kakao.map.view_models.SearchActivityViewModel
 import ksc.campus.tech.kakao.map.views.adapters.SearchKeywordAdapter
 import com.kakao.vectormap.KakaoMapSdk
+import ksc.campus.tech.kakao.map.databinding.FragmentKakaoMapBinding
 import ksc.campus.tech.kakao.map.views.adapters.SearchKeywordClickCallback
 
 class MainActivity : AppCompatActivity() {
+    val fragmentManager = supportFragmentManager
+    lateinit var searchFragment: Fragment
+    lateinit var mapFragment: Fragment
+
     private lateinit var searchResultFragmentContainer: FragmentContainerView
     private lateinit var searchInput: SearchView
     private lateinit var keywordRecyclerView: RecyclerView
@@ -26,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        initiateFragments()
         initiateViews()
 
         setInitialValueToAdapter()
@@ -41,6 +51,14 @@ class MainActivity : AppCompatActivity() {
         searchViewModel.keywords.observe(this) {
             (keywordRecyclerView.adapter as? SearchKeywordAdapter)?.updateKeywords(it.asReversed())
             setKeywordRecyclerViewActive(it.isNotEmpty())
+        }
+        searchViewModel.activeContent.observe(this){
+            if(it == SearchActivityViewModel.Companion.ContentType.MAP){
+                switchToMapMenu()
+            }
+            else{
+                switchToSearchMenu()
+            }
         }
     }
 
@@ -82,6 +100,17 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        searchInput.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+                searchViewModel.switchContent(SearchActivityViewModel.Companion.ContentType.SEARCH_LIST)
+            }
+        }
+    }
+
+    private fun initiateFragments(){
+        mapFragment = KakaoMapFragment()
+        searchFragment = SearchResultFragment()
     }
 
     private fun initiateViews() {
@@ -93,10 +122,21 @@ class MainActivity : AppCompatActivity() {
         initiateSaveKeywordRecyclerView()
     }
 
-    fun checkKakaoSdk() {
+    private fun switchToSearchMenu(){
+        val fragmentReplaceTransaction = fragmentManager.beginTransaction()
+        fragmentReplaceTransaction.replace(R.id.fragment_container_search_result, searchFragment)
+        fragmentReplaceTransaction.commit()
+    }
+
+    private fun switchToMapMenu(){
+        val fragmentReplaceTransaction = fragmentManager.beginTransaction()
+        fragmentReplaceTransaction.replace(R.id.fragment_container_search_result, mapFragment)
+        fragmentReplaceTransaction.commit()
+    }
+
+    private fun checkKakaoSdk() {
         try {
             KakaoMapSdk.init(this, resources.getString(R.string.KAKAO_API_KEY))
-            Log.d("KSC","hash: ${KakaoMapSdk.INSTANCE.hashKey}")
         } catch (e: Exception) {
             Log.e("KSC", e.message ?: "")
             Log.e("KSC", e.stackTraceToString())

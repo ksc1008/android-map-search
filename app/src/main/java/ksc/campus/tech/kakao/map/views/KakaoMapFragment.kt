@@ -1,6 +1,5 @@
 package ksc.campus.tech.kakao.map.views
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,7 +24,7 @@ class KakaoMapFragment : Fragment() {
 
     private fun initiateKakaoMap(view: View) {
         kakaoMap = view.findViewById(R.id.kakao_map_view)
-        kakaoMap.start(object : MapLifeCycleCallback() {
+        kakaoMap.start(object: MapLifeCycleCallback() {
             override fun onMapDestroy() {
             }
 
@@ -34,7 +33,7 @@ class KakaoMapFragment : Fragment() {
             }
 
         },
-            object : KakaoMapReadyCallback() {
+            object: KakaoMapReadyCallback(){
                 override fun onMapReady(km: KakaoMap) {
                     val builder = CameraPosition.Builder()
                     builder.position = LatLng.from(35.8905341232321, 128.61213266480294)
