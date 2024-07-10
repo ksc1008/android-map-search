@@ -20,3 +20,10 @@
 ## 구현할 기능 목록
 - KAKAO Search Service 구현
 - SearchResultRepository 리스트를 KAKAO Search Service를 통해 불러오도록 변경
+
+# 2단계
+
+## 구현할 기능 목록
+- 카카오 맵 API와 연동하여 맵을 보여주는 기능 추가
+- 검색 창 선택시 검색 화면으로 전환하는 기능 추가
+- 뒤로가기 콜백 처리
