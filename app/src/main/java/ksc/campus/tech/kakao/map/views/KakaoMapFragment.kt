@@ -1,10 +1,12 @@
 package ksc.campus.tech.kakao.map.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.MapLifeCycleCallback
@@ -16,9 +18,9 @@ import java.lang.Exception
 class KakaoMapFragment : Fragment() {
     lateinit private var kakaoMap: MapView
 
-    private fun initiateKakaoMap(view:View){
+    private fun initiateKakaoMap(view: View) {
         kakaoMap = view.findViewById(R.id.kakao_map_view)
-        kakaoMap.start(object: MapLifeCycleCallback() {
+        kakaoMap.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {
             }
 
@@ -26,10 +28,10 @@ class KakaoMapFragment : Fragment() {
             }
 
         },
-            object: KakaoMapReadyCallback(){
+            object : KakaoMapReadyCallback() {
                 override fun onMapReady(km: KakaoMap) {
-                }
 
+                }
             })
     }
 
