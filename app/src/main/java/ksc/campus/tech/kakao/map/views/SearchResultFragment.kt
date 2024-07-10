@@ -1,10 +1,12 @@
 package ksc.campus.tech.kakao.map.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -67,5 +69,14 @@ class SearchResultFragment : Fragment() {
         initiateRecyclerView(view)
         initiateSearchResultLiveDataObservation()
         setInitialValueToAdapter()
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                viewModel.switchContent(SearchActivityViewModel.Companion.ContentType.MAP)
+            }
+
+        })
     }
 }
