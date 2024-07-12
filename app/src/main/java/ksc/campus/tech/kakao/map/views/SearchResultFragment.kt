@@ -70,13 +70,16 @@ class SearchResultFragment : Fragment() {
         initiateSearchResultLiveDataObservation()
         setInitialValueToAdapter()
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                viewModel.switchContent(SearchActivityViewModel.Companion.ContentType.MAP)
-            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.switchContent(SearchActivityViewModel.Companion.ContentType.MAP)
+                }
 
-        })
+            })
     }
 }

@@ -20,33 +20,30 @@ import ksc.campus.tech.kakao.map.R
 import java.lang.Exception
 
 class KakaoMapFragment : Fragment() {
-    lateinit private var kakaoMap: MapView
+    private lateinit var kakaoMap: MapView
 
     private fun initiateKakaoMap(view: View) {
         kakaoMap = view.findViewById(R.id.kakao_map_view)
-        kakaoMap.start(object: MapLifeCycleCallback() {
+        kakaoMap.start(object : MapLifeCycleCallback() {
             override fun onMapDestroy() {
             }
 
             override fun onMapError(e: Exception?) {
-                Log.e("KSC", e?.message?:"")
+                Log.e("KSC", e?.message ?: "")
             }
 
         },
-            object: KakaoMapReadyCallback(){
+            object : KakaoMapReadyCallback() {
                 override fun onMapReady(km: KakaoMap) {
                     val builder = CameraPosition.Builder()
                     builder.position = LatLng.from(35.8905341232321, 128.61213266480294)
                     builder.tiltAngle = 0.0
                     builder.zoomLevel = 15
-                    val camUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition.from(builder))
+                    val camUpdate =
+                        CameraUpdateFactory.newCameraPosition(CameraPosition.from(builder))
                     km.moveCamera(camUpdate)
                 }
             })
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

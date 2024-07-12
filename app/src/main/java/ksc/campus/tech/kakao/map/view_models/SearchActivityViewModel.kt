@@ -63,11 +63,11 @@ class SearchActivityViewModel(application: Application) : AndroidViewModel(appli
         search(keyword)
     }
 
-    fun switchContent(type: ContentType){
+    fun switchContent(type: ContentType) {
         _activeContent.postValue(type)
     }
 
-    companion object{
-        enum class ContentType {MAP, SEARCH_LIST}
+    companion object {
+        enum class ContentType { MAP, SEARCH_LIST }
     }
 }
