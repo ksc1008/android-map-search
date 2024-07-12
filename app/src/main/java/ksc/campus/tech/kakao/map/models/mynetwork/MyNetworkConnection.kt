@@ -46,7 +46,8 @@ class MyNetworkConnection(private val domain:String, private val path:String) {
         headers.add(Pair(key, value))
     }
 
-    fun getHttpResponse(): MyConnectionResponse{
+    fun getHttpResponse(): MyConnectionResponse {
+        httpsConnection.connect()
         Log.d("KSC", httpsConnection.contentType)
         Log.d("KSC", httpsConnection.headerFields.toString())
         try {

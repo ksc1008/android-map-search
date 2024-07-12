@@ -1,7 +1,9 @@
-package ksc.campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ksc.campus.tech.kakao.map.models.KakaoSearchService
+import ksc.campus.tech.kakao.map.models.SearchResult
 
 class SearchResultRepository() {
     private val _searchResult: MutableLiveData<List<SearchResult>> = MutableLiveData(listOf())
@@ -14,7 +16,7 @@ class SearchResultRepository() {
 
     fun search(text: String, apiKey: String) {
         clearResults()
-        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, BATCH_COUNT) {
+        KakaoSearchService.batchSearchByKeyword(text, apiKey, BATCH_COUNT) {
             _searchResult.postValue((_searchResult.value ?: listOf()) + it)
         }
     }

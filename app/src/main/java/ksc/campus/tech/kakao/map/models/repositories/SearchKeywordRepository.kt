@@ -1,4 +1,4 @@
-package ksc.campus.tech.kakao.map.models
+package ksc.campus.tech.kakao.map.models.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ksc.campus.tech.kakao.map.models.SearchDbHelper
 
 class SearchKeywordRepository(context: Context) {
     private val _keywords: MutableLiveData<List<String>> = MutableLiveData(listOf())

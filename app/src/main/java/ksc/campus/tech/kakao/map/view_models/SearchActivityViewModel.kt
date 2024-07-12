@@ -5,9 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ksc.campus.tech.kakao.map.BuildConfig
-import ksc.campus.tech.kakao.map.models.SearchKeywordRepository
+import ksc.campus.tech.kakao.map.models.repositories.SearchKeywordRepository
 import ksc.campus.tech.kakao.map.models.SearchResult
-import ksc.campus.tech.kakao.map.models.SearchResultRepository
+import ksc.campus.tech.kakao.map.models.repositories.SearchResultRepository
 
 
 class SearchActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -34,7 +34,7 @@ class SearchActivityViewModel(application: Application) : AndroidViewModel(appli
     }
 
     private fun search(query: String) {
-        searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY)
+        searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY1)
         switchContent(ContentType.SEARCH_LIST)
     }
 
