@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        searchInput.setOnQueryTextFocusChangeListener { v, hasFocus ->
+        searchInput.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 searchViewModel.switchContent(SearchActivityViewModel.Companion.ContentType.SEARCH_LIST)
             }
