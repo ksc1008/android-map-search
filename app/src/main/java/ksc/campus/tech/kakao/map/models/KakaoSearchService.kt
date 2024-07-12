@@ -3,25 +3,9 @@ package ksc.campus.tech.kakao.map.models
 import android.util.Log
 import ksc.campus.tech.kakao.map.models.dto.KeywordSearchResponse
 import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkCallbacks
-import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkService
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Query
+import ksc.campus.tech.kakao.map.models.mynetwork.MyHttpHelper
 
-interface KakaoSearchRetrofitService {
-    @GET("/v2/local/search/keyword.json")
-    fun requestSearchResultByKeyword(
-        @Header("Authorization") restApiKey: String,
-        @Query("query") query: String,
-        @Query("page") page: Int
-    ): Call<KeywordSearchResponse>
-}
-
-object SearchKakaoHelper {
+object KakaoSearchService {
     private val categoryGroupCodeToDescription: HashMap<String, String> = hashMapOf(
         Pair("MT1", "대형마트"),
         Pair("CS2", "편의점"),
@@ -42,7 +26,6 @@ object SearchKakaoHelper {
         Pair("HP8", "병원"),
         Pair("PM9", "약국")
     )
-    private const val KAKAO_LOCAL_URL = "https://dapi.kakao.com/"
 
     /**
      * 요청이 유효한지 검증하기 위해 사용.
@@ -55,18 +38,9 @@ object SearchKakaoHelper {
 
     private fun isQueryValid(query: String): Boolean = query.isNotBlank()
 
-    private fun getRetrofitService(url: String): KakaoSearchRetrofitService {
-        return Retrofit.Builder()
-            .baseUrl(url)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(KakaoSearchRetrofitService::class.java)
-    }
 
     private fun parseCategory(category: String) =
         category.split('>').last().trim().replace(",", ", ")
-
-    private fun responseToResultArray(response: Response<KeywordSearchResponse>): List<SearchResult> =responseToResultArray(response.body())
 
     private fun responseToResultArray(response: KeywordSearchResponse?): List<SearchResult>{
         if(response == null)
@@ -89,16 +63,6 @@ object SearchKakaoHelper {
         return result
     }
 
-
-    private fun isResponseSuccess(response: Response<KeywordSearchResponse>): Boolean {
-        if (!response.isSuccessful) {
-            Log.e("KSC", "request failed")
-            Log.e("KSC", "error message: ${response.message()}")
-            Log.e("KSC", "error code: ${response.code()}")
-            return false
-        }
-        return true
-    }
 
     fun batchSearchByKeyword(
         query: String,
@@ -126,7 +90,7 @@ object SearchKakaoHelper {
         if (!isQueryValid(query))
             return
 
-        val myService = MyNetworkService()
+        val myService = MyHttpHelper()
         myService.run("KakaoAK $apiKey", query, page, object:MyNetworkCallbacks<KeywordSearchResponse>{
             override fun onResponse(response: KeywordSearchResponse) {
                 val result = responseToResultArray(response)
@@ -156,44 +120,5 @@ object SearchKakaoHelper {
             }
 
         })
-
-        // val retrofitService = getRetrofitService(KAKAO_LOCAL_URL)
-        // retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, page).enqueue(
-        //     object : Callback<KeywordSearchResponse> {
-        //         override fun onResponse(
-        //             call: Call<KeywordSearchResponse>,
-        //             response: Response<KeywordSearchResponse>
-        //         ) {
-        //             if (!isResponseSuccess(response)) {
-        //                 return
-        //             }
-        //             val result = responseToResultArray(response)
-        //             if (lastSearchId != searchId) {
-        //                 return
-        //             }
-        //             onResponse?.invoke(result)
-        //             if (response.body()?.meta?.is_end == false) {
-        //                 batchSearchByKeyword(
-        //                     searchId,
-        //                     query,
-        //                     apiKey,
-        //                     page + 1,
-        //                     batchCount,
-        //                     onResponse
-        //                 )
-        //             }
-        //         }
-//
-        //         override fun onFailure(call: Call<KeywordSearchResponse>, p1: Throwable) {
-        //             if (call.isCanceled) {
-        //                 Log.e("KSC", "request canceled")
-        //             }
-        //             if (call.isExecuted) {
-        //                 Log.e("KSC", "request was executed but failed")
-        //             }
-        //             Log.e("KSC", "Message: ${p1.message}")
-        //         }
-        //     }
-        // )
     }
 }

@@ -14,7 +14,7 @@ interface MyNetworkCallbacks<T> {
 }
 
 
-class MyNetworkService {
+class MyHttpHelper {
     private fun deserializeJson(jsonString: String): KeywordSearchResponse =
         Json.decodeFromString<KeywordSearchResponse>(jsonString)
 
