@@ -1,10 +1,14 @@
 package ksc.campus.tech.kakao.map.models.dto
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class KeywordSearchResponse(
     val meta: Meta,
     val documents: List<Document>
 )
 
+@Serializable
 data class Meta(
     val total_count: Int,
     val pageable_count: Int,
@@ -12,12 +16,14 @@ data class Meta(
     val same_name: SameName
 )
 
+@Serializable
 data class SameName(
     val region: List<String>,
     val keyword: String,
     val selected_region: String
 )
 
+@Serializable
 data class Document(
     val id: String,
     val place_name: String,

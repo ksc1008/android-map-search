@@ -2,6 +2,8 @@ package ksc.campus.tech.kakao.map.models
 
 import android.util.Log
 import ksc.campus.tech.kakao.map.models.dto.KeywordSearchResponse
+import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkCallbacks
+import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,10 +67,14 @@ object SearchKakaoHelper {
     private fun parseCategory(category: String) =
         category.split('>').last().trim().replace(",", ", ")
 
-    private fun responseToResultArray(response: Response<KeywordSearchResponse>): List<SearchResult> {
+    private fun responseToResultArray(response: Response<KeywordSearchResponse>): List<SearchResult> =responseToResultArray(response.body())
+
+    private fun responseToResultArray(response: KeywordSearchResponse?): List<SearchResult>{
+        if(response == null)
+            return mutableListOf()
         val result = mutableListOf<SearchResult>()
 
-        for (doc in response.body()?.documents ?: listOf()) {
+        for (doc in response.documents) {
             result.add(
                 SearchResult(
                     doc.id,
@@ -83,6 +89,7 @@ object SearchKakaoHelper {
         }
         return result
     }
+
 
     private fun isResponseSuccess(response: Response<KeywordSearchResponse>): Boolean {
         if (!response.isSuccessful) {
@@ -120,43 +127,74 @@ object SearchKakaoHelper {
         if (!isQueryValid(query))
             return
 
-        val retrofitService = getRetrofitService(KAKAO_LOCAL_URL)
-        retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, page).enqueue(
-            object : Callback<KeywordSearchResponse> {
-                override fun onResponse(
-                    call: Call<KeywordSearchResponse>,
-                    response: Response<KeywordSearchResponse>
-                ) {
-                    if (!isResponseSuccess(response)) {
-                        return
-                    }
-                    val result = responseToResultArray(response)
-                    if (lastSearchId != searchId) {
-                        return
-                    }
-                    onResponse?.invoke(result)
-                    if (response.body()?.meta?.is_end == false) {
-                        batchSearchByKeyword(
-                            searchId,
-                            query,
-                            apiKey,
-                            page + 1,
-                            batchCount,
-                            onResponse
-                        )
-                    }
+        val myService = MyNetworkService()
+        myService.run("KakaoAK $apiKey", query, page, object:MyNetworkCallbacks<KeywordSearchResponse>{
+            override fun onResponse(response: KeywordSearchResponse) {
+                val result = responseToResultArray(response)
+                if (lastSearchId != searchId) {
+                    return
                 }
-
-                override fun onFailure(call: Call<KeywordSearchResponse>, p1: Throwable) {
-                    if (call.isCanceled) {
-                        Log.e("KSC", "request canceled")
-                    }
-                    if (call.isExecuted) {
-                        Log.e("KSC", "request was executed but failed")
-                    }
-                    Log.e("KSC", "Message: ${p1.message}")
+                onResponse?.invoke(result)
+                if (!response.meta.is_end) {
+                    batchSearchByKeyword(
+                        searchId,
+                        query,
+                        apiKey,
+                        page + 1,
+                        batchCount,
+                        onResponse
+                    )
                 }
             }
-        )
+
+            override fun onError(errorMessage: String) {
+                Log.e("KSC", "request failed")
+                Log.e("KSC", "Message: $errorMessage")
+            }
+
+            override fun onTimeout() {
+                Log.e("KSC", "connection timeout")
+            }
+
+        })
+
+        // val retrofitService = getRetrofitService(KAKAO_LOCAL_URL)
+        // retrofitService.requestSearchResultByKeyword("KakaoAK $apiKey", query, page).enqueue(
+        //     object : Callback<KeywordSearchResponse> {
+        //         override fun onResponse(
+        //             call: Call<KeywordSearchResponse>,
+        //             response: Response<KeywordSearchResponse>
+        //         ) {
+        //             if (!isResponseSuccess(response)) {
+        //                 return
+        //             }
+        //             val result = responseToResultArray(response)
+        //             if (lastSearchId != searchId) {
+        //                 return
+        //             }
+        //             onResponse?.invoke(result)
+        //             if (response.body()?.meta?.is_end == false) {
+        //                 batchSearchByKeyword(
+        //                     searchId,
+        //                     query,
+        //                     apiKey,
+        //                     page + 1,
+        //                     batchCount,
+        //                     onResponse
+        //                 )
+        //             }
+        //         }
+//
+        //         override fun onFailure(call: Call<KeywordSearchResponse>, p1: Throwable) {
+        //             if (call.isCanceled) {
+        //                 Log.e("KSC", "request canceled")
+        //             }
+        //             if (call.isExecuted) {
+        //                 Log.e("KSC", "request was executed but failed")
+        //             }
+        //             Log.e("KSC", "Message: ${p1.message}")
+        //         }
+        //     }
+        // )
     }
 }
