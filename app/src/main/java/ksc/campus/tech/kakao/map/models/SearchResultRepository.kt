@@ -14,12 +14,13 @@ class SearchResultRepository() {
 
     fun search(text: String, apiKey: String) {
         clearResults()
-        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, 10) {
+        SearchKakaoHelper.batchSearchByKeyword(text, apiKey, BATCH_COUNT) {
             _searchResult.postValue((_searchResult.value ?: listOf()) + it)
         }
     }
 
     companion object {
+        private const val BATCH_COUNT = 10
         private var _instance: SearchResultRepository? = null
         fun getInstance(): SearchResultRepository {
             if (_instance == null) {
@@ -27,7 +28,5 @@ class SearchResultRepository() {
             }
             return _instance as SearchResultRepository
         }
-
-
     }
 }

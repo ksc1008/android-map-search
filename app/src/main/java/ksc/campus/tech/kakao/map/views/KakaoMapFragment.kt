@@ -36,9 +36,8 @@ class KakaoMapFragment : Fragment() {
             object : KakaoMapReadyCallback() {
                 override fun onMapReady(km: KakaoMap) {
                     val builder = CameraPosition.Builder()
-                    builder.position = LatLng.from(35.8905341232321, 128.61213266480294)
-                    builder.tiltAngle = 0.0
-                    builder.zoomLevel = 15
+                    builder.position = LatLng.from(KNU_COORDINATE_LATITUDE, KNU_COORDINATE_LONGITUDE)
+                    builder.zoomLevel = CLOSEUP_ZOOM_LEVEL
                     val camUpdate =
                         CameraUpdateFactory.newCameraPosition(CameraPosition.from(builder))
                     km.moveCamera(camUpdate)
@@ -57,5 +56,11 @@ class KakaoMapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initiateKakaoMap(view)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    companion object{
+        private const val KNU_COORDINATE_LATITUDE =35.8905341232321
+        private const val KNU_COORDINATE_LONGITUDE =128.61213266480294
+        private const val CLOSEUP_ZOOM_LEVEL = 15
     }
 }

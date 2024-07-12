@@ -23,7 +23,7 @@ class MyNetworkConnection(private val domain:String, private val path:String) {
 
     fun generateHttpConnection() {
         try {
-            val connectUrl: URL = URL(domain + path + "?$encodedProperties")
+            val connectUrl: URL = URL("$domain$path?$encodedProperties")
             val urlConnection = (connectUrl.openConnection() as HttpsURLConnection)
             urlConnection.connectTimeout = timeout
             urlConnection.requestMethod = "GET"
