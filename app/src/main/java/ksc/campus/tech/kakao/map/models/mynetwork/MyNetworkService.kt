@@ -3,7 +3,6 @@ package ksc.campus.tech.kakao.map.models.mynetwork
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import ksc.campus.tech.kakao.map.models.dto.KeywordSearchResponse
-import retrofit2.Call
 import kotlin.concurrent.thread
 
 interface MyNetworkCallbacks<T> {

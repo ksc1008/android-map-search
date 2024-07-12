@@ -5,7 +5,6 @@ import ksc.campus.tech.kakao.map.models.dto.KeywordSearchResponse
 import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkCallbacks
 import ksc.campus.tech.kakao.map.models.mynetwork.MyNetworkService
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
