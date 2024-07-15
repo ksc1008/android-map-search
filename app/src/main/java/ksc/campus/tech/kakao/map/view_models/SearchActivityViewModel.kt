@@ -67,7 +67,5 @@ class SearchActivityViewModel(application: Application) : AndroidViewModel(appli
         _activeContent.postValue(type)
     }
 
-    companion object {
-        enum class ContentType { MAP, SEARCH_LIST }
-    }
+    enum class ContentType { MAP, SEARCH_LIST }
 }
