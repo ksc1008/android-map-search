@@ -5,29 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ksc.campus.tech.kakao.map.R
 
-class KeywordDiffUtil(private val oldList: List<String>, private val newList: List<String>) :
-    DiffUtil.Callback() {
-    override fun getOldListSize(): Int = oldList.size
-
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
-
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-        oldList[oldItemPosition] == newList[newItemPosition]
-
-}
 
 class SearchKeywordAdapter(
     private val inflater: LayoutInflater,
     private val clickCallback: SearchKeywordClickCallback
-) : RecyclerView.Adapter<SearchKeywordAdapter.SearchKeywordViewHolder>() {
-    private var items: List<String> = listOf()
+) : ListAdapter<String, SearchKeywordAdapter.SearchKeywordViewHolder>(object: DiffUtil.ItemCallback<String>(){
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean = oldItem == newItem
+
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean = true
+}) {
 
     class SearchKeywordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var nameText: TextView
@@ -52,17 +42,7 @@ class SearchKeywordAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchKeywordViewHolder, position: Int) {
-        val item = items[position]
+        val item = currentList[position]
         holder.nameText.text = item
-    }
-
-    override fun getItemId(position: Int): Long = position.toLong()
-    override fun getItemCount(): Int = items.size
-
-    fun updateKeywords(keywords: List<String>) {
-        val diffUtil = KeywordDiffUtil(items, keywords)
-        val diffResult = DiffUtil.calculateDiff(diffUtil)
-        items = keywords
-        diffResult.dispatchUpdatesTo(this)
     }
 }

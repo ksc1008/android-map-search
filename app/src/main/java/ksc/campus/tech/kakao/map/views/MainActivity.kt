@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             searchInput.setQuery(it, false)
         }
         searchViewModel.keywords.observe(this) {
-            (keywordRecyclerView.adapter as? SearchKeywordAdapter)?.updateKeywords(it.asReversed())
+            (keywordRecyclerView.adapter as? SearchKeywordAdapter)?.submitList(it.asReversed())
             setKeywordRecyclerViewActive(it.isNotEmpty())
         }
         searchViewModel.activeContent.observe(this) {
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setInitialValueToAdapter() {
         searchViewModel.keywords.value?.let {
-            (keywordRecyclerView.adapter as? SearchKeywordAdapter)?.updateKeywords(it)
+            (keywordRecyclerView.adapter as? SearchKeywordAdapter)?.submitList(it)
         }
     }
 
