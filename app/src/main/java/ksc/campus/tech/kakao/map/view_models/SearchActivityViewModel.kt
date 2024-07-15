@@ -34,7 +34,7 @@ class SearchActivityViewModel(application: Application) : AndroidViewModel(appli
     }
 
     private fun search(query: String) {
-        searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY1)
+        searchResultRepository.search(query, BuildConfig.KAKAO_REST_API_KEY)
         switchContent(ContentType.SEARCH_LIST)
     }
 

@@ -1,6 +1,6 @@
 package ksc.campus.tech.kakao.map.models.dto
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,50 +11,50 @@ data class KeywordSearchResponse(
 
 @Serializable
 data class Meta(
-    @SerializedName("total_count")
+    @SerialName("total_count")
     val totalCount: Int,
-    @SerializedName("pageable_count")
+    @SerialName("pageable_count")
     val pageableCount: Int,
-    @SerializedName("is_end")
+    @SerialName("is_end")
     val isEnd: Boolean,
-    @SerializedName("same_name")
+    @SerialName("same_name")
     val sameName: SameName
 )
 
 @Serializable
 data class SameName(
-    @SerializedName("region")
+    @SerialName("region")
     val region: List<String>,
-    @SerializedName("keyword")
+    @SerialName("keyword")
     val keyword: String,
-    @SerializedName("selected_region")
+    @SerialName("selected_region")
     val selectedRegion: String
 )
 
 @Serializable
 data class Document(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("place_name")
+    @SerialName("place_name")
     val placeName: String,
-    @SerializedName("category_name")
+    @SerialName("category_name")
     val categoryName: String,
-    @SerializedName("category_group_code")
+    @SerialName("category_group_code")
     val categoryGroupCode: String,
-    @SerializedName("category_group_name")
+    @SerialName("category_group_name")
     val categoryGroupName: String,
-    @SerializedName("phone")
+    @SerialName("phone")
     val phone: String,
-    @SerializedName("address_name")
+    @SerialName("address_name")
     val addressName: String,
-    @SerializedName("road_address_name")
+    @SerialName("road_address_name")
     val roadAddressName: String,
-    @SerializedName("x")
+    @SerialName("x")
     val x: String,
-    @SerializedName("y")
+    @SerialName("y")
     val y: String,
-    @SerializedName("place_url")
+    @SerialName("place_url")
     val placeUrl: String,
-    @SerializedName("distance")
+    @SerialName("distance")
     val distance: String
 )
