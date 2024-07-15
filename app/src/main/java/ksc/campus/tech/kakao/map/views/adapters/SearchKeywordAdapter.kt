@@ -13,7 +13,8 @@ import ksc.campus.tech.kakao.map.R
 class SearchKeywordAdapter(
     private val inflater: LayoutInflater,
     private val clickCallback: SearchKeywordClickCallback
-) : ListAdapter<String, SearchKeywordAdapter.SearchKeywordViewHolder>(object: DiffUtil.ItemCallback<String>(){
+) : ListAdapter<String, SearchKeywordAdapter.SearchKeywordViewHolder>(object :
+    DiffUtil.ItemCallback<String>() {
     override fun areItemsTheSame(oldItem: String, newItem: String): Boolean = oldItem == newItem
 
     override fun areContentsTheSame(oldItem: String, newItem: String): Boolean = true
