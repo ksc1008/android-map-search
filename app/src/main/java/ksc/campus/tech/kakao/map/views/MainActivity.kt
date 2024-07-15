@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             setKeywordRecyclerViewActive(it.isNotEmpty())
         }
         searchViewModel.activeContent.observe(this) {
-            if (it == SearchActivityViewModel.Companion.ContentType.MAP) {
+            if (it == SearchActivityViewModel.ContentType.MAP) {
                 switchToMapMenu()
             } else {
                 switchToSearchMenu()
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         searchInput.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                searchViewModel.switchContent(SearchActivityViewModel.Companion.ContentType.SEARCH_LIST)
+                searchViewModel.switchContent(SearchActivityViewModel.ContentType.SEARCH_LIST)
             }
         }
     }

@@ -31,7 +31,7 @@ class SearchResultFragment : Fragment() {
 
     private fun setInitialValueToAdapter() {
         viewModel.searchResult.value?.let {
-            (searchResultRecyclerView.adapter as? SearchResultAdapter)?.updateResult(it)
+            (searchResultRecyclerView.adapter as? SearchResultAdapter)?.submitList(it)
         }
     }
 
@@ -53,7 +53,7 @@ class SearchResultFragment : Fragment() {
 
     private fun initiateSearchResultLiveDataObservation() {
         viewModel.searchResult.observe(viewLifecycleOwner) {
-            (searchResultRecyclerView.adapter as? SearchResultAdapter)?.updateResult(it)
+            (searchResultRecyclerView.adapter as? SearchResultAdapter)?.submitList(it)
             setNoResultHelpTextActive(it.isEmpty())
         }
     }
@@ -77,7 +77,7 @@ class SearchResultFragment : Fragment() {
             this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    viewModel.switchContent(SearchActivityViewModel.Companion.ContentType.MAP)
+                    viewModel.switchContent(SearchActivityViewModel.ContentType.MAP)
                 }
 
             })
