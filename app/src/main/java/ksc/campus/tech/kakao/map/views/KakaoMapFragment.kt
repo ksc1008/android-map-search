@@ -50,12 +50,26 @@ class KakaoMapFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_kakao_map, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initiateKakaoMap(view)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onResume() {
+        kakaoMap.resume()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        kakaoMap.pause()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        kakaoMap.finish()
+        super.onDestroyView()
     }
 }
