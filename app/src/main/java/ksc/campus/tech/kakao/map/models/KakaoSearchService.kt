@@ -51,11 +51,11 @@ object KakaoSearchService {
             result.add(
                 SearchResult(
                     doc.id,
-                    doc.place_name,
-                    doc.address_name,
+                    doc.placeName,
+                    doc.addressName,
                     categoryGroupCodeToDescription.getOrDefault(
-                        doc.category_group_code,
-                        parseCategory(doc.category_name)
+                        doc.categoryGroupCode,
+                        parseCategory(doc.categoryName)
                     )
                 )
             )
@@ -98,7 +98,7 @@ object KakaoSearchService {
                     return
                 }
                 onResponse?.invoke(result)
-                if (!response.meta.is_end) {
+                if (!response.meta.isEnd) {
                     batchSearchByKeyword(
                         searchId,
                         query,
