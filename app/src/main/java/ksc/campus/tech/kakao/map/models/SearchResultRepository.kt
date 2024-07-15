@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class SearchResultRepository() {
-    private val _searchResult: MutableLiveData<List<SearchResult>> = MutableLiveData(listOf())
+    private val _searchResult: MutableLiveData<List<SearchResult>> = MutableLiveData(emptyList())
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
