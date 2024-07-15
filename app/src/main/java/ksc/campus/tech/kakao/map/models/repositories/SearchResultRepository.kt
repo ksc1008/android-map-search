@@ -6,7 +6,7 @@ import ksc.campus.tech.kakao.map.models.KakaoSearchService
 import ksc.campus.tech.kakao.map.models.SearchResult
 
 class SearchResultRepository() {
-    private val _searchResult: MutableLiveData<List<SearchResult>> = MutableLiveData(listOf())
+    private val _searchResult: MutableLiveData<List<SearchResult>> = MutableLiveData(emptyList())
     val searchResult: LiveData<List<SearchResult>>
         get() = _searchResult
 
